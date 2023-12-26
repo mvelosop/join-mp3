@@ -1,0 +1,19 @@
+# Dependency directory
+node_modules/
+
+# TypeScript compiled JavaScript output
+dist/
+build/
+
+# Environment configuration files
+.env
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating System Files
+.DS_Store
+Thumbs.db
