@@ -1,10 +1,9 @@
+import { cp } from "fs";
+import { audioFilePath, inputFolder, silenceDuration, silenceFilePath } from "./file-params";
+
 const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
 
-const inputFolder = '/Users/miguelveloso/Music/GarageBand/koans';
-const outputFilePath = '/Users/miguelveloso/Music/GarageBand/koans.mp3';
-const silenceFilePath = '/Users/miguelveloso/Music/GarageBand/silence.mp3';
-const silenceDuration = 90; // seconds
 
 // Function to create a silence audio file
 async function createSilence(duration: number): Promise<string> {
@@ -32,19 +31,24 @@ async function concatenateMP3Files() {
         files.forEach((file, index) => {
             console.log(`Adding ${file} to the merged file.`);
             merged.input(`${inputFolder}/${file}`);
-            if (index < files.length - 1) {
-                merged.input(silenceFile);
-            }
+            merged.input(silenceFile);
         });
 
-        merged.mergeToFile(outputFilePath, './temp')
-              .on('error', (err) => console.error(err))
-              .on('end', () => console.log('Merging completed.'));
+        merged.mergeToFile(audioFilePath, './temp')
+            .on('error', (err) => console.error(err))
+            .on('end', () => {
+            console.log('Audio merging completed.');
+            });
     } catch (error) {
         console.error('An error occurred:', error);
     }
 }
 
+console.log('Concatenating MP3 files...');
+// Example usage
 concatenateMP3Files()
-.then(() => console.log('Done.'))
-.catch((error) => console.error(error));
+    .then(() => console.log('Concatenation completed.'))
+    .catch((error) => console.error(error));
+
+
+
